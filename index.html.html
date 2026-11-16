@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calendário de comunicados — Família do Sítio</title>
+<style>
+:root{color-scheme:light;--g:#2B684A;--bg:#f5f7f6;--ln:#dfe5e2;--tx:#1d2823;--mut:#5c6a64;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#fff;border-bottom:3px solid var(--g);padding:8px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+h1{font-size:18px;margin:0 12px 0 0;color:var(--g)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{border:1px solid var(--ln);background:#fff;border-radius:8px;padding:6px 11px;cursor:pointer}
+button:hover{border-color:var(--g)}button.p{background:var(--g);color:#fff;border-color:var(--g)}button.on{background:#e6f0ea;border-color:var(--g);font-weight:600}
+button.d{color:#b3261e}
+input,select,textarea{border:1px solid #c9d2ce;border-radius:8px;padding:6px 8px;background:#fff;max-width:100%}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.sp{flex:1}
+#st{font-size:13px;color:var(--mut)}#st.bad{color:#b3261e;font-weight:700}
+.fl{padding:8px 14px;background:#fff;border-bottom:1px solid var(--ln)}
+.lg{display:flex;flex-wrap:wrap;gap:6px 12px;padding:6px 14px;font-size:13px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:5px}.chip i{width:14px;height:14px;border-radius:4px;display:inline-block}
+main{padding:10px 14px}
+.wrap{overflow:auto;max-height:calc(100vh - 330px);min-height:380px;background:#fff;border:1px solid var(--ln);border-radius:10px}
+.wk{display:grid;grid-template-columns:62px repeat(var(--n),minmax(150px,1fr));min-width:min-content}
+.wk>div{border-bottom:1px solid var(--ln);border-right:1px solid var(--ln);padding:3px;min-height:58px}
+.wk .h{position:sticky;top:0;z-index:3;background:#f0f5f2;min-height:50px;text-align:center;font-weight:600}
+.wk .t{position:sticky;left:0;z-index:2;background:#f0f5f2;font-weight:600;text-align:center;color:var(--mut);min-height:0}
+.wk .h.t{z-index:4}.wk .h small{display:block;font-weight:400;color:var(--mut)}
+.wk .h.m1{border-left:3px solid var(--g)}.mb{background:var(--g);color:#fff;border-radius:6px;padding:0 6px;font-size:11px;margin-left:4px}
+.wk .c{cursor:cell}.wk .c:hover{background:#f7fbf9}
+.wk .f{position:sticky;bottom:0;background:#f0f5f2;min-height:0;text-align:center;font-weight:600;z-index:2}
+.em{color:#a3aea8;font-size:11px}.fh{color:#7a6a00;font-size:11px}
+.cd{border-radius:7px;padding:4px 6px;margin:2px 0;font-size:13px;cursor:pointer;overflow-wrap:anywhere;border:1px solid rgba(0,0,0,.18)}
+.cd b{margin-right:3px}.cd i{display:block;font-size:11px;opacity:.85}.cd.can span{text-decoration:line-through}.cd.ne{border:1px dashed #888}
+.cd svg{vertical-align:-2px;margin-right:2px}
+.more{width:100%;font-size:12px;padding:2px}
+.mo{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.mo .dh{font-weight:600;text-align:center;color:var(--mut)}
+.md{background:#fff;border:1px solid var(--ln);border-radius:8px;min-height:78px;padding:5px;cursor:pointer}.md.o{opacity:.45}
+.md .n{display:flex;justify-content:space-between}.dots{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}.dots i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+table{border-collapse:collapse;width:100%;background:#fff}td,th{border-bottom:1px solid var(--ln);padding:6px 8px;text-align:left;vertical-align:top}tr.r{cursor:pointer}tr.r:hover{background:#f3f8f5}
+.box{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:10px 14px;margin-bottom:10px}.warn{background:#fff7d6;border-color:#e0c44a}
+dialog{border:1px solid #bbb;border-radius:12px;padding:16px;width:min(560px,94vw);max-height:92vh}dialog::backdrop{background:rgba(0,0,0,.35)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fg label{display:block;font-size:13px;color:var(--mut)}.fg input,.fg select,.fg textarea{width:100%;color:var(--tx)}.full{grid-column:1/-1}
+#tt{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:10px;display:none;gap:10px;align-items:center;z-index:99}#tt button{padding:2px 8px}
+@media(max-width:719px){.wrap{max-height:none}.wk{grid-template-columns:62px 1fr}.hm{display:none}.mo{gap:2px}.md{min-height:56px;padding:3px}}
+@media print{header .bar,.fl,#tt,.hp,#st{display:none!important}.wrap{max-height:none;overflow:visible;border:0}body{background:#fff}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}.wk>div{min-height:40px}@page{size:landscape;margin:8mm}}
+</style></head><body>
+<header><h1>Família do Sítio · Calendário de comunicados</h1>
+<div class="bar" id="vt"></div><span class="sp"></span>
+<div class="bar"><button class="p" id="bn">+ Novo comunicado</button><button id="bb">Backup / exportar ▾</button><span id="st"></span></div></header>
+<div class="fl bar hp">
+<button id="pv">◀</button><button id="td">Hoje</button><button id="nx">▶</button><input type="date" id="gd" aria-label="Ir para a data">
+<b id="lb" style="min-width:160px"></b>
+<span id="ms"></span><span class="sp"></span>
+<input id="q" placeholder="Buscar por título" type="search"><select id="fe"></select><select id="fs"></select>
+<select id="fm"><option value="">Marcação: todas</option><option value="fixo">Fixo</option><option value="mensal">Mensal</option><option value="err">Enviado com erro</option></select>
+<button id="fc">Limpar filtros</button></div>
+<div class="lg" id="lg"></div>
+<main id="v"></main>
+<div id="tt"></div>
+<dialog id="dg"></dialog><dialog id="dd"></dialog>
+<input type="file" id="fi" accept=".json" hidden>
+<script>
+const ED=[['pes','Pessoas','#11B3FB'],['ins','Institucional','#2B684A'],['ci','Comunicação interna','#F1DC43'],['rec','Reconhecimento','#FF9E45'],['seg','Segurança','#CE3749'],['tec','Tecnologia','#717171'],['cul','Cultura e comportamento','#BB84CA'],['rad','Recado das áreas','#EC6784'],['com','Comercial','#134A73']];
+const ST=[['nao','Não informado'],['rasc','Rascunho'],['apr','Em aprovação'],['agd','Agendado'],['env','Enviado'],['can','Cancelado']];
+const MF=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'],MN=MF.map(m=>m.slice(0,3)),WD=['dom','seg','ter','qua','qui','sex','sáb'];
+const K='fds_cal_v1',$=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),P=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const add=(s,n)=>{const d=P(s);d.setDate(d.getDate()+n);return iso(d)},mon=s=>add(s,-((P(s).getDay()+6)%7)),br=s=>s.slice(8)+'/'+s.slice(5,7);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ed=k=>ED.find(e=>e[0]===k),stl=k=>(ST.find(s=>s[0]===k)||ST[0])[1],uid=()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const lum=h=>(.299*parseInt(h.slice(1,3),16)+.587*parseInt(h.slice(3,5),16)+.114*parseInt(h.slice(5,7),16))/255;
+const TRI='<svg width="14" height="14" viewBox="0 0 24 24" aria-label="Enviado com erro"><path d="M12 2 1 22h22z" fill="#F5C400" stroke="#222" stroke-width="1.5"/><path d="M12 9v6M12 17.5v1" stroke="#222" stroke-width="2.4"/></svg>';
+const pin=c=>`<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6" fill="${c}" stroke="#222" stroke-width="1.3"/><path d="M12 14v9" stroke="#222" stroke-width="2"/></svg>`;
+const marks=o=>(o.err?TRI:'')+(o.fx==='fixo'?pin('#D32F2F'):'')+(o.fx==='mensal'?pin('#F5C400'):'');
+// ---- dados importados do PDF "Levantamento de comunicados" (págs. 4-9) ----
+const I=(id,t,d,h,fx,src)=>({id,t,d,h,e:'',s:'nao',fx,err:false,errT:'',obs:'Importado do PDF. Editoria e situação não constam no anexo. '+(src||''),link:'',rec:{f:'none',u:''},ex:{}});
+const SEED={rev:1,items:[
+I('a1','Aniversariantes do mês','2026-10-01','08:15','fixo','Fonte: pág. 5 (Rotinas mensais).'),I('a2','Aniversariantes do mês','2026-11-01','08:15','fixo','Fonte: pág. 5.'),I('a3','Aniversariantes do mês','2026-12-01','08:15','fixo','Fonte: pág. 5.'),
+I('b1','Tempo de casa — aniversariantes do mês','2026-10-01','08:20','fixo','Fonte: pág. 5.'),I('b2','Tempo de casa — aniversariantes do mês','2026-11-01','08:20','fixo','Fonte: pág. 5.'),I('b3','Tempo de casa — aniversariantes do mês','2026-12-01','08:20','fixo','Fonte: pág. 5.'),
+I('c1','Portal RH','2026-11-06','15:30','mensal','Fonte: pág. 5.'),I('d1','Assinatura e entrega de folha de ponto','2026-11-09','14:00','mensal','Fonte: pág. 5.')],
+pend:[
+{id:'p1',t:'Portal RH (dezembro)',h:'15:30',fx:'mensal',campo:'Data',pag:'Pág. 5, coluna Dezembro',nota:'O PDF mostra “04/11 às 15H30” na coluna de dezembro (04/11 é novembro). Conferir se é 04/12.'},
+{id:'p2',t:'Assinatura e entrega de folha de ponto (dezembro)',h:'14:00',fx:'mensal',campo:'Data',pag:'Pág. 5, coluna Dezembro',nota:'O PDF mostra “07/11 às 14H00” na coluna de dezembro (07/11/2026 é sábado). Conferir se é 07/12.'},
+{id:'p3',t:'5S',campo:'Data e horário',pag:'Pág. 4 (Situação – novembro)',nota:'Citado só no resumo do mês; sem data/horário no PDF.'},
+{id:'p4',t:'Tá sabendo?',campo:'Data e horário',pag:'Pág. 4 (novembro)',nota:'Citado só no resumo; sem data/horário.'},
+{id:'p5',t:'Convenção e confraternização',campo:'Data, horário e se são 1 ou 2 envios',pag:'Pág. 4 (novembro)',nota:'Citado só no resumo.'},
+{id:'p6',t:'Feliz Natal e Feliz Ano Novo',campo:'Data, horário e se são 1 ou 2 envios',pag:'Pág. 4 (dezembro)',nota:'Citado só no resumo.'},
+{id:'p7',t:'SIPAT',campo:'Data e horário',pag:'Pág. 7',nota:'Citado como campanha com reforços/atualizações; sem datas.'},
+{id:'p8',t:'Autodeclaração',campo:'Data e horário',pag:'Pág. 7',nota:'Citado como campanha com reforços; sem datas.'},
+{id:'p9',t:'Festa dos aniversariantes',campo:'Data e horário',pag:'Pág. 7',nota:'Citado como campanha com reforços; sem datas.'},
+{id:'p10',t:'Parabéns do dia',campo:'Data e horário',pag:'Pág. 7',nota:'Citado como rotina por pessoa; sem horário no PDF.'},
+{id:'p11',t:'Regras de higiene',campo:'Proposta não agendada',pag:'Pág. 9',nota:'Proposta: semanal, segunda-feira às 10h. Não agendada — nenhuma ocorrência criada.',h:'10:00'},
+{id:'p12',t:'Regras de acesso à Área de Produção',campo:'Proposta não agendada',pag:'Pág. 9',nota:'Proposta: semanal, quarta-feira às 10h. Não agendada.',h:'10:00'},
+{id:'p13',t:'Kit do mês',campo:'Proposta não agendada',pag:'Pág. 9',nota:'Proposta: mensal, data a depender do almoxarifado. Não agendada.'}]};
+let S,UNDO=[],U={v:'week',cur:iso(new Date())},F={q:'',e:'',s:'',m:''},FM={};
+try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.items)S=JSON.parse(JSON.stringify(SEED));
+const OB='Importado do calendário de outubro (captura ampliada).';
+const PD='Parabéns do dia',TC='Tempo de casa',AU='Autodeclaração de raça/ cor',FA='Festa dos aniversariantes do semestre',NF='Nova data! '+FA,IA='Interrupção do Fornecimento de Água',NT='Nosso Time Cresceu! Dê as Boas-Vindas',DS='Desligamento',PT='Tá sabendo? Novo processo de acompanhamento do ponto eletrônico',SP='Vem aí SIPAT',EN='Encontros mensais com o RH';
+const L=[['01','08:30',PD,'ci'],['01','11:00','Programação de pagamentos de Fornecedores','rad'],['01','14:00','Sítio verde – último dia de doação bazar','ins'],['01','15:00','Manutenção do sistema de incêndio','rad'],
+['02','07:00',AU,'rad'],['02','08:30',PD,'ci'],['05','08:30',PD,'ci'],['05','15:00',IA,'rad'],
+['06','08:30',PD,'ci'],['06','08:30',TC,'rec'],['06','08:31',TC,'rec'],['06','08:32',TC,'rec'],['06','08:33',TC,'rec'],['06','08:34',TC,'rec'],['06','10:00','Sítio verde – save the date bazar','ins'],['06','15:25',SP,'seg'],['06','15:46',AU,'rad'],['06','17:46',FA,'ci','x'],
+['07','08:30',FA,'ci'],['07','08:30',PD,'ci'],['07','09:40',AU,'rad'],['07','15:00',IA,'rad'],
+['08','09:00',FA,'ci'],['08','09:40',AU,'rad'],['08','10:40',NF,'ci'],['08','14:00','Assinatura e entrega de folha de ponto','rad'],['08','15:00',IA,'rad'],['08','15:00','Almoço - '+IA,'rad'],['08','15:30',EN,'seg'],
+['09','07:00',NF,'ci'],['09','09:40',AU,'rad','x'],['11','08:30',PD,'ci'],
+['13','08:30',PD,'ci'],['13','08:30',TC,'rec'],['13','09:00',NF,'ci'],['13','14:49',NT,'com'],['14','08:30',PD,'ci'],['14','15:25',SP,'seg'],
+['16','09:20',DS,'pes'],['16','10:00','Tá sabendo? Equipamento para novos funcionários','rad'],['16','10:00','Acesso às áreas de produção','seg'],['16','10:40',DS,'pes'],['16','14:00',EN,'seg'],['16','14:00','Novo site família do sítio chegando','ins'],['16','15:00',SP,'seg'],['16','17:30','Tá sabendo? Assembleia Geral STIAB','rad'],
+['17','08:30',PD,'ci'],['18','08:30',PD,'ci'],['19','10:00','Normas de Higiene','seg'],['19','14:30',NT,'com'],
+['20','08:30',TC,'rec'],['20','08:31',TC,'rec'],['20','09:00','É amanhã! SIPAT','seg'],['20','14:00',PT,'rad'],['20','15:00','RETIFICAÇÃO – '+PT,'rad'],['21','14:00','Novo site família do sítio CHEGOU','ins'],
+['22','08:30',PD,'ci'],['22','15:00','Veja como foi: renovação da parede missão, visão e valores','ci'],['25','08:30',PD,'ci'],
+['26','08:30',PD,'ci'],['26','11:00',NT,'com'],['26','14:00',PT,'rad'],['26','16:00','SAVE THE DATE: confraternização 2026','ci'],['27','08:30',PD,'ci'],['27','18:00',DS,'pes'],['28','08:30',PD,'ci'],['31','08:30',PD,'ci']];
+const OUT=L.map((r,i)=>({id:'o'+(i+1),t:r[2],d:'2026-10-'+r[0],h:r[1],e:r[3],s:'nao',fx:'',err:r[4]==='x',errT:'',obs:OB+(r[4]==='x'?' Erro assinalado (⚠); a descrição do erro não consta no levantamento.':''),link:'',rec:{f:'none',u:''},ex:{}}));
+const UPD={a1:{t:'Aniversariantes de outubro',e:'ci',obs:'Título no calendário de outubro: Aniversariantes de outubro; no PDF (pág. 5): Aniversariantes do mês. Pino vermelho = fixo.'},b1:{e:'rec',obs:'Calendário de outubro e PDF (pág. 5) coincidem em 08:20. Pino vermelho = fixo.'}};
+const PEND2=[{id:'q1',t:'Manutenção do sistema de incêndio',d:'2026-10-02',e:'rad',campo:'Horário',pag:'Outubro, sexta 02/10',nota:'O texto do cartão diz 15h00, mas ele está na linha de 09h. Conferir o horário.'},{id:'q2',t:'Tá sabendo? Equipamento para novos funcionários',d:'2026-10-23',e:'rad',campo:'Horário',pag:'Outubro, sexta 23/10',nota:'O texto do cartão diz 10h00, mas ele está na linha de 11h. Conferir o horário.'},{id:'q3',t:'Explore os nossos produtos no novo site família do sítio',d:'2026-10-29',e:'ins',campo:'Horário',pag:'Outubro, quinta 29/10',nota:'O texto do cartão diz 14h00; na visão geral ele está na linha de 09h e o total de 29/10 aparece como 0. Conferir horário.'}];
+function applyImp2(s){if((s.impV||0)>=2)return false;OUT.forEach(o=>{if(!s.items.some(i=>i.id===o.id))s.items.push(JSON.parse(JSON.stringify(o)))});for(const k in UPD){const i=s.items.find(x=>x.id===k);if(i)Object.assign(i,UPD[k])}s.pend=(s.pend||[]).filter(p=>!['p7','p8','p9','p10'].includes(p.id));PEND2.forEach(p=>{if(!s.pend.some(x=>x.id===p.id))s.pend.push({...p})});s.impV=2;return true}
+const AN='Aniversariantes do mês',TA='Tempo de casa — aniversariantes do mês',NP='Novo processo de acompanhamento e conferência de ponto eletrônico',NH='Normas de Higiene',AC='Acesso às áreas de produção',BR='Orientações para solicitação de brindes e kits',SM={e:'env',a:'agd',r:'rasc'};
+const L3=[['11-02','11:00','Programação de pagamentos de Fornecedores','rad'],['11-03','08:30',PD,'ci'],['11-03','09:00','Reserve essa data | Convenção de Vendas e Marketing 2026','ci'],['11-03','09:00','Marketing Lançamentos | Nossa história, nossa essência','ins'],['11-03','10:00','SAVE THE DATE: Confraternização 2026','ci'],['11-03','11:30',DS,'pes'],['11-03','12:00',NP,'rad','','','Erro de data no texto'],['11-03','14:57',NP,'rad'],['11-04','15:10',DS,'pes'],
+['11-05','08:30',PD,'ci'],['11-05','15:45','Manutenção do Ponto Eletrônico','rad'],['11-05','15:48',DS,'pes'],['11-06','08:00','5S: Utilização','ins'],['11-06','14:00','Uso das salas de reunião e do auditório','seg'],['11-06','16:30','Veja Como Foi | Café da manhã na Vila dos Campeões','ci'],['11-08','08:30',PD,'ci'],
+['11-09','08:00','Modelos de apresentações atualizados','rad'],['11-09','11:50','Manutenção Ponto Eletrônico','rad'],['11-09','14:00','Vem de bike? Saiba onde estacionar','seg'],['11-10','08:30',PD,'ci'],['11-10','08:30',TC,'rec'],['11-10','16:15',NT,'pes'],
+['11-11','08:30',PD,'ci','','','Título com a data errada'],['11-11','14:00',DS,'pes'],['11-11','17:35','Férias Coletivas','pes'],['11-13','08:00','5S: Organização','ins'],['11-13','08:15',TC,'rec'],['11-13','08:30',PD,'ci'],['11-16','11:00',BR,'rad','e'],
+['11-17','10:00',NH,'seg','a'],['11-18','10:00',AC,'seg','a'],['11-19','08:00','5S: Limpeza','ins'],['11-19','08:30',PD,'ci'],['11-21','08:30',PD,'ci'],['11-23','08:30',PD,'ci'],['11-24','10:00',NH,'seg','r'],['11-25','08:30',PD,'ci'],['11-25','10:00',AC,'seg','a'],['11-26','08:30',PD,'ci'],['11-27','08:00','5S: Padronização','ins'],['11-27','08:30',PD,'ci'],['11-28','08:30',PD,'ci'],
+['12-01','10:00',NH,'seg'],['12-02','10:00',AC,'seg','a'],['12-04','08:00','5S: Autodisciplina','ins'],['12-04','15:30','Portal RH','rad'],['12-07','14:00','Assinatura e entrega de folha de ponto','rad','a','mensal'],['12-08','10:00',NH,'seg'],['12-09','10:00',AC,'seg','a'],['12-15','10:00',NH,'seg'],['12-16','10:00',AC,'seg','a'],['12-16','11:00',BR,'rad'],
+['2027-01-01','08:15',AN,'ci'],['2027-01-01','08:20',TA,'ci','','fixo'],['2027-01-16','11:00',BR,'rad'],['2027-02-01','08:15',AN,'ci'],['2027-02-01','08:20',TA,'ci','','fixo'],['2027-02-16','11:00',BR,'rad'],['2027-03-01','08:15',AN,'ci']];
+const NEW3=L3.map((r,i)=>({id:'n'+(i+1),t:r[2],d:r[0].length<6?'2026-'+r[0]:r[0],h:r[1],e:r[3],s:SM[r[4]]||'nao',fx:r[5]||'',err:!!r[6],errT:r[6]||'',obs:'Importado da versão atualizada da equipe (lista de 16/11/2026). Situação só preenchida onde constava e a data não é futura.',link:'',rec:{f:'none',u:''},ex:{}}));
+const UPD3={a2:{e:'ci',s:'env',fx:'fixo'},a3:{e:'ci',fx:'fixo'},b2:{e:'ci',s:'env',fx:'fixo'},b3:{e:'ci',fx:'fixo'},d1:{e:'rad',fx:'mensal'}};
+function applyImp3(s){if((s.impV||0)>=3)return false;NEW3.forEach(o=>{if(!s.items.some(i=>i.id===o.id))s.items.push(JSON.parse(JSON.stringify(o)))});for(const k in UPD3){const i=s.items.find(x=>x.id===k);if(i)Object.assign(i,UPD3[k])}s.items=s.items.filter(i=>i.id!=='c1');s.pend=(s.pend||[]).filter(p=>!['p1','p2','p3','p5'].includes(p.id));s.impV=3;return true}
+function applyImp(s){let c=false;if((s.impV||0)<2)c=applyImp2(s)||c;if((s.impV||0)<3)c=applyImp3(s)||c;return c}
+if(applyImp(S))try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}
+// ---- salvamento ----
+let dref=null,pend=0,seeded=0;const hm=()=>new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+function setSt(t,bad){const s=$('#st');s.textContent=t;s.className=bad?'bad':''}
+function persist(){S.rev=Date.now();const j=JSON.stringify(S);let ok=true;try{localStorage.setItem(K,j)}catch(e){ok=false}
+ if(dref){pend++;setSt('Salvando…');dref.set({json:j,rev:S.rev}).then(()=>{pend--;setSt('✔ Salvo no banco compartilhado às '+hm())}).catch(e=>{pend--;setSt('✖ FALHA ao salvar no banco ('+(e.code||'erro')+'). Cópia só neste navegador.',1)})}
+ else setSt(ok?'✔ Salvo só neste navegador às '+hm()+' (não sincroniza com a equipe)':'✖ FALHA ao salvar neste navegador — exporte um backup',!ok)}
+addEventListener('beforeunload',e=>{if(pend){e.preventDefault();e.returnValue=''}});
+(async()=>{let db=null;try{db=await Promise.race([window.claude.use('db'),new Promise(r=>setTimeout(()=>r(null),8000))])}catch(e){}
+ if(!db){setSt('Salvo só neste navegador (sem banco compartilhado disponível)');return}
+ dref=db.doc('cal/main');
+ dref.onSnapshot(sn=>{if(sn.exists){const d=sn.data();if(d.rev>S.rev&&!pend){try{S=JSON.parse(d.json);if(applyImp(S))persist();else localStorage.setItem(K,d.json);render();setSt('Atualizado com a versão compartilhada às '+hm())}catch(e){}}else if(d.rev<S.rev&&!pend)persist();else if(d.rev===S.rev){let r=0;try{r=JSON.parse(d.json).impV||0}catch(e){}if(r<3)persist();else setSt('✔ Sincronizado com o banco compartilhado')}}
+  else if(!seeded){seeded=1;persist()}},e=>setSt('Banco indisponível: '+e.message,1))})();
+function mut(fn,msg){UNDO.push(JSON.stringify(S));if(UNDO.length>20)UNDO.shift();fn();persist();render();toast(msg,1)}
+function undo(){if(!UNDO.length)return;S=JSON.parse(UNDO.pop());persist();render();toast('Ação desfeita')}
+let tto;function toast(m,u){const t=$('#tt');t.innerHTML=esc(m)+(u?' <button id="ud">Desfazer</button>':'');t.style.display='flex';clearTimeout(tto);tto=setTimeout(()=>t.style.display='none',7000);if(u)$('#ud').onclick=()=>{undo()}}
+// ---- ocorrências ----
+const isS=it=>it.rec&&it.rec.f&&it.rec.f!=='none';
+function occs(a,b){const out=[];for(const it of S.items){let ds=[it.d];const r=it.rec;
+ if(isS(it)){ds=[];const end=r.u&&r.u<b?r.u:b;let d=it.d,k=0;while(d<=end&&k<900){ds.push(d);k++;if(r.f==='weekly')d=add(d,7);else{const o=P(it.d),t=new Date(o.getFullYear(),o.getMonth()+k,1),dim=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();d=iso(new Date(t.getFullYear(),t.getMonth(),Math.min(o.getDate(),dim)))}}}
+ for(const od of ds){const x=(it.ex||{})[od];if(x&&x.del)continue;const o={...it,...(x||{}),od};if(!x){o.d=od;if(isS(it)&&od!==it.d){o.s='nao';o.err=false;o.errT=''}}if(o.d>=a&&o.d<=b)out.push(o)}}
+ return out.sort((x,y)=>(x.d+x.h).localeCompare(y.d+y.h))}
+const pass=o=>(!F.q||o.t.toLowerCase().includes(F.q))&&(!F.e||(o.e||'none')===F.e)&&(!F.s||o.s===F.s)&&(!F.m||(F.m==='err'?o.err:o.fx===F.m));
+const act=()=>F.q||F.e||F.s||F.m;
+function card(o){const e=ed(o.e),bg=e?e[2]:'#fff',fg=e&&lum(bg)<=.5?'#fff':'#111';
+ return `<div class="cd${o.s==='can'?' can':''}${e?'':' ne'}" style="background:${bg};color:${fg}" data-id="${o.id}" data-od="${o.od}" tabindex="0" title="${esc(o.t)}"><b>${o.h}</b>${marks(o)}<span>${esc(o.t)}</span>${o.s!=='nao'?`<i>${stl(o.s)}</i>`:''}</div>`}
+// ---- renderização ----
+const mob=()=>innerWidth<720;
+function render(){document.querySelectorAll('#vt button').forEach(b=>b.classList.toggle('on',b.dataset.v===U.v));
+ const w=U[U.v==='week'?'v':'v'];({week,month,list,pend:pendV}[U.v])();
+ const yy=+U.cur.slice(0,4),cm=+U.cur.slice(5,7);$('#ms').innerHTML=`<select id="ys" aria-label="Ano">${[2026,2027,2028].map(a=>`<option ${a===yy?'selected':''}>${a}</option>`).join('')}</select> `+MN.map((n,i)=>`<button data-m="${i+1}" data-y="${yy}" class="${i+1===cm?'on':''}">${n}</button>`).join(' ')}
+const stats=a=>{const r={n:a.length,e:a.filter(o=>o.s==='env').length,by:{}};a.forEach(o=>{const k=o.e||'none',x=r.by[k]=r.by[k]||[0,0];x[0]++;if(o.s==='env')x[1]++});return r};
+const strip=(a,t)=>{const r=stats(a);return `<div class="box"><b>${t}${act()?' (com os filtros atuais)':''}:</b> ${r.n} comunicado(s) · <b>${r.e} enviado(s)</b> (situação “Enviado”)<div class="lg" style="padding:6px 0 0">`+[...ED.map(e=>e[0]),'none'].filter(k=>k!=='none'||r.by.none).map(k=>{const e=ed(k),c=r.by[k]||[0,0];return `<span class="chip" style="${c[0]?'':'opacity:.5'}"><i style="background:${e?e[2]:'#fff'};border:1px solid #888"></i>${e?e[1]:'Sem editoria'}: <b>${c[0]}</b> (${c[1]} enviado(s))</span>`}).join('')+'</div></div>'};
+function week(){const m=mob(),days=m?[U.cur]:[...Array(7)].map((_,i)=>add(mon(U.cur),i)),a=days[0],b=days[days.length-1],all=occs(a,b);
+ const ms=[...new Set(days.map(d=>MF[+d.slice(5,7)-1]+' '+d.slice(0,4)))];$('#lb').textContent=ms.join(' / ')+(m?' · '+br(a):'');
+ let h=strip(all.filter(pass),'Semana')+`<div class="wrap"><div class="wk" style="--n:${days.length}"><div class="h t">Hora</div>`;
+ days.forEach((d,i)=>{h+=`<div class="h${d.endsWith('-01')&&i?' m1':''}">${WD[P(d).getDay()]} ${br(d)}${d.endsWith('-01')||i===0?`<span class="mb">${MN[+d.slice(5,7)-1]}</span>`:''}<small>${(()=>{const v=all.filter(o=>o.d===d&&pass(o)),e=v.filter(o=>o.s==='env').length;return v.length+' envio(s)'+(e?' · '+e+' enviado(s)':'')})()}</small></div>`});
+ const row=(lab,test,hh)=>{let r=`<div class="t">${lab}</div>`;days.forEach(d=>{const it=all.filter(o=>o.d===d&&test(+o.h.slice(0,2))),vis=it.filter(pass),hid=it.length-vis.length;
+  r+=`<div class="c" data-d="${d}" data-h="${hh}">`+(vis.length>3?vis.slice(0,2).map(card).join('')+`<button class="more" data-d="${d}">+${vis.length-2} mais (ver dia)</button>`:vis.map(card).join(''))+(vis.length?'':hid?`<span class="fh">· ${hid} envio(s) oculto(s) pelo filtro</span>`:`<span class="em">Sem envio registrado</span>`)+(vis.length&&hid?`<div class="fh">· +${hid} filtrado(s)</div>`:'')+'</div>'});return r};
+ for(let H=7;H<=18;H++)h+=row(H+'h',x=>x===H,pad(H)+':00');
+ if(all.some(o=>{const x=+o.h.slice(0,2);return x<7||x>18}))h+=row('Fora de 7–18h',x=>x<7||x>18,'07:00');
+ h+=`<div class="f t">Total</div>`+days.map(d=>`<div class="f">${all.filter(o=>o.d===d&&pass(o)).length}</div>`).join('')+'</div></div>';
+ $('#v').innerHTML=h}
+function month(){const [y,m]=U.cur.split('-').map(Number),f=`${y}-${pad(m)}-01`,s=mon(f),last=iso(new Date(y,m,0)),e=add(mon(last),6),all=occs(s,e);$('#lb').textContent=MF[m-1]+' '+y;
+ let h=strip(all.filter(o=>o.d.slice(0,7)===y+'-'+pad(m)&&pass(o)),'Mês de '+MF[m-1])+'<div class="mo">'+['seg','ter','qua','qui','sex','sáb','dom'].map(d=>`<div class="dh">${d}</div>`).join('');
+ for(let d=s;d<=e;d=add(d,1)){const it=all.filter(o=>o.d===d&&pass(o)),cs=[...new Set(it.map(o=>o.e))];
+  h+=`<div class="md${d.slice(5,7)!=pad(m)?' o':''}" data-d="${d}"><div class="n"><b>${+d.slice(8)}</b><span style="text-align:right">${it.length?it.length+' envio(s)':''}${it.some(o=>o.s==='env')?`<br>✔ ${it.filter(o=>o.s==='env').length} enviado(s)`:''}</span></div><div class="dots">${cs.map(c=>`<i title="${c?ed(c)[1]:'Sem editoria'}" style="background:${c?ed(c)[2]:'#fff'}"></i>`).join('')}</div></div>`}
+ $('#v').innerHTML=h+'</div>'}
+function list(){$('#lb').textContent='Todos os comunicados';const all=occs('2026-01-01','2028-12-31').filter(pass);
+ $('#v').innerHTML=strip(all,'Lista (2026–2028)')+`<table><tr><th>Data</th><th>Hora</th><th>Título</th><th>Editoria</th><th>Situação</th><th>Marcas</th></tr>`+all.map(o=>{const e=ed(o.e);return `<tr class="r" data-id="${o.id}" data-od="${o.od}"><td>${WD[P(o.d).getDay()]} ${br(o.d)}/${o.d.slice(0,4)}</td><td>${o.h}</td><td>${esc(o.t)}</td><td>${e?`<span class="chip"><i style="background:${e[2]}"></i>${e[1]}</span>`:'—'}</td><td>${stl(o.s)}</td><td>${marks(o)}${o.err?esc(o.errT):''}</td></tr>`}).join('')+'</table>'+(all.length?'':'<p>Nenhum comunicado encontrado.</p>')}
+function pendV(){$('#lb').textContent='Importação e pendências';const n=S.items.filter(i=>i.src!==undefined).length;
+ $('#v').innerHTML=`<div class="box warn"><b>Conferir antes de usar:</b> <b>Outubro</b> foi importado das capturas ampliadas (69 envios na grade + 3 pendências abaixo; o levantamento declara 71, e o cartão de 29/10 não entra nessa contagem). <b>Novembro (27) e dezembro (6)</b> ainda só têm as rotinas mensais do PDF. Na pág. 5 do PDF a folha de ponto em outubro é “x”, mas o calendário mostra o envio de 08/10 às 14h. Situação está “Não informado” em tudo, e os dois ⚠ não trazem descrição do erro. Células vazias significam “sem envio registrado”, não “horário livre”.</div>
+ <div class="box"><b>${S.items.length}</b> registro(s) na grade · <b>${S.pend.length}</b> pendência(s) abaixo. Situação “Não informado” e editoria em branco onde o PDF não informa. Marcações fixo/mensal vêm da pág. 5 (“os dois primeiros têm data fixa; Portal RH e folha de ponto têm datas variáveis”). Portal RH e folha de ponto em outubro aparecem como “x” (sem registro).</div>
+ <table><tr><th>Item (Conferir importação)</th><th>Campo duvidoso</th><th>Origem</th><th>Observação</th><th></th></tr>`+S.pend.map(p=>`<tr><td><b>${esc(p.t)}</b></td><td>${esc(p.campo)}</td><td>${esc(p.pag)}</td><td>${esc(p.nota)}</td><td style="white-space:nowrap"><button data-pl="${p.id}">Posicionar</button> <button class="d" data-pd="${p.id}">Descartar</button></td></tr>`).join('')+'</table>'}
+// ---- formulário ----
+const fld=(id,l,x,c)=>`<div class="${c||''}"><label for="${id}">${l}</label>${x}</div>`;
+function openForm(o,mode,od){FM={id:o.id,od,mode,pid:o.pid};const it=S.items.find(i=>i.id===o.id),ser=mode==='edit'&&it&&isS(it);const r=(it&&it.rec)||o.rec||{f:'none',u:''};
+ $('#dg').innerHTML=`<h3 style="margin-top:0">${mode==='edit'?'Editar comunicado':mode==='dup'?'Duplicar comunicado':'Novo comunicado'}</h3><div class="fg">
+ ${fld('f_t','Título *',`<input id="f_t" value="${esc(o.t)}">`,'full')}
+ ${fld('f_d','Data *',`<input type="date" id="f_d" value="${o.d||''}">`)}${fld('f_h','Horário * (com minutos)',`<input type="time" id="f_h" value="${o.h||''}">`)}
+ ${fld('f_e','Editoria (aplica a cor)',`<select id="f_e"><option value="">Não informada</option>${ED.map(e=>`<option value="${e[0]}" ${o.e===e[0]?'selected':''}>${e[1]}</option>`).join('')}</select>`)}
+ ${fld('f_s','Situação',`<select id="f_s">${ST.map(s=>`<option value="${s[0]}" ${o.s===s[0]?'selected':''}>${s[1]}</option>`).join('')}</select>`)}
+ ${fld('f_fx','Marcação',`<select id="f_fx"><option value="">Nenhuma</option><option value="fixo" ${o.fx==='fixo'?'selected':''}>Fixo (pino vermelho)</option><option value="mensal" ${o.fx==='mensal'?'selected':''}>Mensal, data variável (pino amarelo)</option></select>`)}
+ ${fld('f_err','Enviado com erro',`<label style="color:inherit"><input type="checkbox" id="f_err" style="width:auto" ${o.err?'checked':''}> Sim (triângulo de alerta)</label>`)}
+ ${fld('f_errt','Descrição do erro',`<input id="f_errt" value="${esc(o.errT)}">`,'full')}
+ ${fld('f_obs','Observações',`<textarea id="f_obs" rows="2">${esc(o.obs)}</textarea>`,'full')}
+ ${fld('f_link','Link da arte ou do registro no RD Station',`<input id="f_link" type="url" value="${esc(o.link)}">`,'full')}
+ ${fld('f_rf','Recorrência (só se definida)',`<select id="f_rf"><option value="none">Não se repete</option><option value="weekly" ${r.f==='weekly'?'selected':''}>Semanal</option><option value="monthly" ${r.f==='monthly'?'selected':''}>Mensal (mesmo dia)</option></select>`)}${fld('f_ru','Repetir até (data final)',`<input type="date" id="f_ru" value="${r.u||''}">`)}
+ ${ser?fld('f_sc','Aplicar a',`<select id="f_sc"><option value="one">Somente esta ocorrência (${br(od)})</option><option value="all">Toda a série</option></select>`,'full'):''}
+ <div class="full" id="cf"></div></div>
+ <div class="bar" style="margin-top:12px">${mode==='edit'?'<button class="d" id="fdel">Excluir</button><button id="fdup">Duplicar</button>':''}<span class="sp"></span><button id="fc2">Cancelar</button><button class="p" id="fsv">Salvar</button></div>`;
+ const chk=()=>{const d=$('#f_d').value,h=$('#f_h').value,n=d&&h?occs(d,d).filter(x=>x.h===h&&!(x.id===FM.id&&x.od===FM.od&&mode==='edit')).length:0;$('#cf').innerHTML=n?`<div class="box warn" style="margin:0">⚠ Já há ${n} envio(s) em ${br(d)} às ${h}. Você pode salvar mesmo assim.</div>`:''};
+ ['f_d','f_h'].forEach(i=>$('#'+i).oninput=chk);chk();$('#fc2').onclick=()=>$('#dg').close();$('#fsv').onclick=saveForm;
+ if(mode==='edit'){$('#fdel').onclick=delForm;$('#fdup').onclick=()=>{$('#dg').close();openForm({...o,id:uid(),t:o.t+' (cópia)'},'dup')}}
+ $('#dd').close();$('#dg').showModal()}
+function saveForm(){const v={t:$('#f_t').value.trim(),d:$('#f_d').value,h:$('#f_h').value,e:$('#f_e').value,s:$('#f_s').value,fx:$('#f_fx').value,err:$('#f_err').checked,errT:$('#f_errt').value,obs:$('#f_obs').value,link:$('#f_link').value.trim()},rec={f:$('#f_rf').value,u:$('#f_ru').value};
+ if(!v.t||!v.d||!v.h)return alert('Preencha título, data e horário.');if(rec.f!=='none'&&!rec.u&&!confirm('Recorrência sem data final. Continuar mesmo assim?'))return;
+ const sc=$('#f_sc')?$('#f_sc').value:'all';
+ mut(()=>{if(FM.mode==='edit'){const it=S.items.find(x=>x.id===FM.id);if(sc==='one'&&isS(it)){it.ex=it.ex||{};it.ex[FM.od]=v}else{const d0=it.d;Object.assign(it,v,{rec});if(isS(it)&&FM.od!==d0)it.d=d0}}
+  else{S.items.push({id:uid(),...v,rec,ex:{}});if(FM.pid)S.pend=S.pend.filter(p=>p.id!==FM.pid)}},'Comunicado salvo');
+ $('#dg').close();U.cur=v.d}
+function delForm(){const it=S.items.find(x=>x.id===FM.id),sc=$('#f_sc')?$('#f_sc').value:'all';mut(()=>{if(sc==='one'&&isS(it)){it.ex=it.ex||{};it.ex[FM.od]={del:1}}else S.items=S.items.filter(x=>x.id!==FM.id)},'Comunicado excluído');$('#dg').close()}
+const blank=(d,h)=>({id:uid(),t:'',d,h,e:'',s:'nao',fx:'',err:false,errT:'',obs:'',link:''});
+function openEdit(id,od){const o=occs(od,od).find(x=>x.id===id&&x.od===od)||S.items.find(x=>x.id===id);openForm(o,'edit',od)}
+function openDay(d){const all=occs(d,d),vis=all.filter(pass),free=[];for(let H=7;H<=18;H++)if(!all.some(o=>+o.h.slice(0,2)===H))free.push(H+'h');
+ $('#dd').innerHTML=`<h3 style="margin-top:0">${WD[P(d).getDay()]} ${br(d)}/${d.slice(0,4)} · ${vis.length} envio(s)</h3>${vis.map(card).join('')||'<p class="em">Sem envio registrado.</p>'}${act()&&all.length>vis.length?`<p class="fh">${all.length-vis.length} oculto(s) pelo filtro.</p>`:''}<p class="em">Horas sem envio registrado (7h–18h): ${free.join(', ')||'nenhuma'}</p><div class="bar"><button class="p" id="dn">+ Novo neste dia</button><span class="sp"></span><button id="dc">Fechar</button></div>`;
+ $('#dn').onclick=()=>{$('#dd').close();openForm(blank(d,'08:00'),'new')};$('#dc').onclick=()=>$('#dd').close();$('#dd').showModal()}
+// ---- exportação ----
+async function save(name,data,type){try{const dl=await window.claude.use('downloads');if(!dl)throw 0;await dl.save({filename:name,data:new Blob([data],{type})});toast('Arquivo salvo: '+name)}catch(e){if(e&&e.code==='declined')return;toast('Não foi possível baixar aqui. Use Imprimir ou copie os dados.')}}
+const csv=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return '\ufeff'+['Título;Data;Horário;Editoria;Situação;Marcação;Erro no envio;Descrição do erro;Observações;Link;Recorrência;Até'].concat(S.items.map(i=>[i.t,i.d,i.h,i.e?ed(i.e)[1]:'',stl(i.s),i.fx,i.err?'sim':'',i.errT,i.obs,i.link,i.rec.f,i.rec.u].map(q).join(';'))).join('\r\n')};
+function menu(){$('#dd').innerHTML=`<h3 style="margin-top:0">Backup e exportação</h3><div class="bar" style="flex-direction:column;align-items:stretch"><button id="m1">Exportar backup (JSON)</button><button id="m2">Importar backup (JSON) — substitui os dados atuais</button><button id="m3">Exportar comunicados (CSV)</button><button id="m4">Imprimir / salvar semana em PDF</button><button class="d" id="m5">Restaurar importação original do PDF</button><button id="m6">Desfazer última alteração</button><button id="dc">Fechar</button></div><p class="em">${dref?'Os dados ficam no banco compartilhado do artefato (quem abrir o link com permissão vê a mesma versão) e numa cópia neste navegador.':'Os dados ficam apenas neste navegador; não há sincronização com a equipe.'}</p>`;
+ $('#m1').onclick=()=>save('calendario-comunicados-backup.json',JSON.stringify(S,null,1),'application/json');$('#m2').onclick=()=>$('#fi').click();$('#m3').onclick=()=>save('comunicados.csv',csv(),'text/csv');
+ $('#m4').onclick=()=>{$('#dd').close();U.v==='week'||(U.v='week',render());setTimeout(()=>{try{print()}catch(e){toast('Impressão indisponível aqui.')}},150)};
+ $('#m5').onclick=()=>{if(confirm('Substituir tudo pela importação original? (dá para desfazer)')){$('#dd').close();mut(()=>{S=JSON.parse(JSON.stringify(SEED));applyImp(S)},'Importação original restaurada')}};
+ $('#m6').onclick=()=>{$('#dd').close();undo()};$('#dc').onclick=()=>$('#dd').close();$('#dd').showModal()}
+$('#fi').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const n=JSON.parse(t);if(!Array.isArray(n.items))throw 0;if(confirm('Importar '+n.items.length+' comunicado(s) e substituir os dados atuais?')){$('#dd').close();mut(()=>{S={rev:S.rev,items:n.items,pend:n.pend||[]}},'Backup importado')}}catch(x){alert('Arquivo de backup inválido.')}e.target.value=''})};
+// ---- eventos ----
+$('#vt').innerHTML=[['week','Semana'],['month','Mês'],['list','Lista'],['pend','Pendências']].map(v=>`<button data-v="${v[0]}">${v[1]}</button>`).join('');
+$('#fe').innerHTML='<option value="">Editoria: todas</option>'+ED.map(e=>`<option value="${e[0]}">${e[1]}</option>`).join('')+'<option value="none">Sem editoria</option>';
+$('#fs').innerHTML='<option value="">Situação: todas</option>'+ST.map(s=>`<option value="${s[0]}">${s[1]}</option>`).join('');
+$('#lg').innerHTML=ED.map(e=>`<span class="chip"><i style="background:${e[2]}"></i>${e[1]}</span>`).join('')+`<span class="chip">${TRI} Enviado com erro</span><span class="chip">${pin('#D32F2F')} Fixo</span><span class="chip">${pin('#F5C400')} Mensal, data variável</span>`;
+const go=n=>{U.cur=U.v==='month'?iso(new Date(+U.cur.slice(0,4),+U.cur.slice(5,7)-1+n,1)):add(U.cur,n*(mob()?1:7));render()};
+$('#pv').onclick=()=>go(-1);$('#nx').onclick=()=>go(1);$('#td').onclick=()=>{U.cur=iso(new Date());render()};$('#gd').onchange=e=>{if(e.target.value){U.cur=e.target.value;render()}};
+$('#bn').onclick=()=>openForm(blank(U.cur,'08:00'),'new');$('#bb').onclick=menu;
+$('#q').oninput=e=>{F.q=e.target.value.toLowerCase();render()};$('#fe').onchange=e=>{F.e=e.target.value;render()};$('#fs').onchange=e=>{F.s=e.target.value;render()};$('#fm').onchange=e=>{F.m=e.target.value;render()};
+$('#fc').onclick=()=>{F={q:'',e:'',s:'',m:''};$('#q').value='';['fe','fs','fm'].forEach(i=>$('#'+i).value='');render()};
+document.addEventListener('click',e=>{const t=e.target,c=t.closest('.cd,tr.r'),b=t.closest('button');
+ if(b&&b.dataset.v){U.v=b.dataset.v;return render()}if(b&&b.dataset.m){U.cur=b.dataset.y+'-'+pad(b.dataset.m)+'-01';if(U.v==='list'||U.v==='pend')U.v='month';return render()}
+ if(b&&b.dataset.pl){const p=S.pend.find(x=>x.id===b.dataset.pl);return openForm({...blank(p.d||'',p.h||''),t:p.t,fx:p.fx||'',e:p.e||'',obs:p.nota,pid:p.id},'new')}
+ if(b&&b.dataset.pd){return mut(()=>{S.pend=S.pend.filter(x=>x.id!==b.dataset.pd)},'Pendência descartada')}
+ if(b&&b.classList.contains('more'))return openDay(b.dataset.d);
+ if(c&&c.dataset.id&&c.closest('main,#dd')){if(c.closest('#dd'))$('#dd').close();return openEdit(c.dataset.id,c.dataset.od)}
+ const cell=t.closest('.c');if(cell)return openForm(blank(cell.dataset.d,cell.dataset.h),'new');const md=t.closest('.md');if(md)openDay(md.dataset.d)});
+document.addEventListener('change',e=>{if(e.target.id==='ys'){U.cur=e.target.value+U.cur.slice(4);render()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('cd'))e.target.click()});
+addEventListener('resize',()=>{if(U.v==='week')render()});
+render();
+</script></body></html>
